@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+docker build -t advent_of_code_2018 .
