@@ -6,3 +6,5 @@ Requirement: Docker
 Build: `./build`
 
 Run: `./run hello`
+
+REPL: `./repl`
