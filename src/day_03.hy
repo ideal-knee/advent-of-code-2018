@@ -26,15 +26,15 @@
 
 ;; Part 1
 
-(-> overlapping-claims list len print)
+(-> overlapping-claims len print)
 
 
 
 ;; Part 2
 
-(for [claim overlapping-claims]
-  (for [id claim]
+(for [claim overlapping-claims
+      id claim ]
     (if (-> id (in ids))
-      (-> ids (.remove id)) ) ) )
+      (-> ids (.remove id)) ) )
 
 (-> ids first print)

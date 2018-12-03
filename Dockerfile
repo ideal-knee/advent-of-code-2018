@@ -1,10 +1,10 @@
 FROM ubuntu:xenial
 
-RUN apt-get update && apt-get install -y git python-pip
+RUN apt-get update && apt-get install -y git python-pip time
 
 RUN pip install --upgrade pip
 RUN pip install --upgrade git+https://github.com/hylang/hy.git
 
 ENV PYTHONPATH /src
 
-ENTRYPOINT hy $MAIN
+ENTRYPOINT time hy $MAIN
