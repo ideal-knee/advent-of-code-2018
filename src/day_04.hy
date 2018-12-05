@@ -12,6 +12,10 @@
                                                                         (-> match (.group 1) int) )]
                                                            (-> state (get :sleep-times (-> state (get :current-guard))) (.append i)) ) )})
 
+
+
+;; Load data
+
 (setv state {:sleep-times (defaultdict list)})
 (for [line (-> "/data/day-04-input.txt" open sorted)]
   (for [pattern interpreter]
