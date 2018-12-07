@@ -7,4 +7,4 @@ RUN pip install --upgrade git+https://github.com/hylang/hy.git
 
 ENV PYTHONPATH /src
 
-ENTRYPOINT time hy $MAIN
+ENTRYPOINT time -p hy $MAIN

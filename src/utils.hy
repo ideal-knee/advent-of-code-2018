@@ -17,10 +17,10 @@
   (-> o (isinstance Reduced)) )
 
 ;; args: [initial-value] func itr
-(defn dk-reduce [arg-1 arg-2 &optional arg-3]
-  (if arg-3
-    (dk-reduce-aux arg-1 arg-2 arg-3)
-    (dk-reduce-aux (first arg-2) arg-1 (rest arg-2)) ) )
+(defn dk-reduce [arg-1 arg-2 &optional [arg-3 :no-arg-3]]
+  (if (= arg-3 :no-arg-3)
+    (dk-reduce-aux (first arg-2) arg-1 (rest arg-2))
+    (dk-reduce-aux arg-1 arg-2 arg-3) ) )
 
 (defn dk-reduce-aux [initial-value func itr]
   (setv previous-result initial-value)
@@ -40,10 +40,41 @@
     default
     (-> s (get -1)) ) )
 
-(defn pop! [s]
-  (-> s .pop)
-  s )
 
-(defn push! [s o]
-  (-> s (.append o))
-  s )
+
+;; Make list from args
+
+(defn make-list [&rest elems]
+  (list elems) )
+
+
+
+;; Make mutating methods functional
+
+(defmacro ! [n f &rest args]
+  `(do
+     (~f ~n ~@args)
+     ~n ) )
+
+
+
+;; update
+
+(defn update! [m k f]
+  (setv o (-> m (get k)))
+  (setv (-> m (get k)) (f o))
+  m )
+
+
+
+;; Better functional functions for dicts
+
+(defn dict-filter [f d]
+  (dk-reduce {}
+             (fn [o k]
+               (setv v (-> d (get k)))
+               (if (f k v)
+                 (-> o
+                   (! assoc k v) )
+                 o ) )
+             d ) )
