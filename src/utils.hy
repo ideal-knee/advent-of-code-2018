@@ -1,4 +1,4 @@
-;; Shortcircuiting reduce
+;; reduce with shortcircuiting and arg order changed
 
 (defclass Reduced [object]
   "Way to know when to shortcircuit"
@@ -16,7 +16,13 @@
 (defn reduced? [o]
   (-> o (isinstance Reduced)) )
 
-(defn shortcircuiting-reduce [initial-value func itr]
+;; args: [initial-value] func itr
+(defn dk-reduce [arg-1 arg-2 &optional arg-3]
+  (if arg-3
+    (dk-reduce-aux arg-1 arg-2 arg-3)
+    (dk-reduce-aux (first arg-2) arg-1 (rest arg-2)) ) )
+
+(defn dk-reduce-aux [initial-value func itr]
   (setv previous-result initial-value)
   (for [o itr]
     (setv result (func previous-result o))

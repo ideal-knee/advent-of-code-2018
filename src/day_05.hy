@@ -1,13 +1,13 @@
-(import [utils [reduced shortcircuiting-reduce peek pop! push!]])
+(import [utils [dk-reduce peek pop! push!]])
 
 (defn react [p]
   (->> p
     (map ord)
-    (shortcircuiting-reduce []
-                            (fn [seen-stack current]
-                              (if (-> current (- (peek seen-stack 0)) abs (= 32))
-                                  (pop! seen-stack)
-                                  (push! seen-stack current) ) ) ) ) )
+    (dk-reduce []
+               (fn [seen-stack current]
+                 (if (-> current (- (peek seen-stack 0)) abs (= 32))
+                   (pop! seen-stack)
+                   (push! seen-stack current) ) ) ) ) )
 
 
 
