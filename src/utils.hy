@@ -31,6 +31,11 @@
     (setv previous-result result) )
   previous-result )
 
+(defn run [initial-state tick]
+  (dk-reduce initial-state
+             (fn [state _] (tick state))
+             (repeat None) ) )
+
 
 
 ;; Stack
@@ -78,3 +83,26 @@
                    (! assoc k v) )
                  o ) )
              d ) )
+
+
+
+;; Get multiple values out of a map
+
+(defn select [d &rest keys]
+  (->> keys
+     (map (fn [key]
+            (-> d (get key)) )) ) )
+
+
+
+;; Needs love
+
+#_
+(defmacro destructuring-bind [state &rest keys]
+  (setv keywords (gensym))
+  `(do
+     (setv ~keywords (->> '~keys (map (fn [key] (keyword key)))))
+     (setv ~keys (apply select ~state ~keywords)) ) )
+
+#_
+(-> (macroexpand-1 '(destructuring-bind {:x 123} x)) print)
